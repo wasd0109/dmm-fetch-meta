@@ -33,7 +33,7 @@ npm start [path to the folder]
 
 ## Roadmap
 
-- [ ] Rename video within folder
+- [x] Rename video within folder
 - [ ] Recognize videos with multiple part
 - [ ] Allow user to change the folder/filename format
 

@@ -47,6 +47,7 @@ const moveVideoToFolder = (folderPath) => {
   const results = fs.readdirSync(folderPath);
   for (let result of results) {
     const isVideo = VIDEO_REGEX.test(result);
+
     // const isMultipart = MULTIPART_VIDEO_REGEX.test(result);
     if (isVideo) {
       const newFilename = result
