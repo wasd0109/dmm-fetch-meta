@@ -30,6 +30,10 @@ const renameFile = (folderPath) => {
         } catch (e) {
           console.error(e);
         }
+      } else {
+        console.log(
+          'Could not rename file. THe filename does not contain string that match the XXXX-123 format'
+        );
       }
     } else {
       console.log(`${result} ignored. Not a MP4 file`);
