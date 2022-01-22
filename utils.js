@@ -153,7 +153,7 @@ const processFolder = async (folderPath) => {
           .replace(':', '：')
           .replace('/', '／')
           .replace('*', '');
-        const newFolderPath = `${folderPath}\\[${itemId}]${sanitizedTitle}`;
+        const newFolderPath = `${folderPath}\\[${itemId.toUpperCase()}]${sanitizedTitle}`;
 
         fs.renameSync(currentFolderPath, newFolderPath);
         await downloadImage(dmmId, newFolderPath, itemId);
