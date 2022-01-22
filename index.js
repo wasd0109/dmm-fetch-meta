@@ -10,8 +10,8 @@ function main(args) {
   const myArgs = args.slice(2);
   const FOLDER_PATH = myArgs[0];
   const folderExist = fs.existsSync(FOLDER_PATH);
-  console.log(myArgs);
-  resetAllFolderName(FOLDER_PATH);
+  // console.log(myArgs);
+  // resetAllFolderName(FOLDER_PATH);
   if (!FOLDER_PATH) {
     console.error('Please enter a folder path as an argument');
   } else if (!folderExist) {
