@@ -38,4 +38,4 @@ npm start [path to the folder]
 ## Future
 
 This is a simple personal project and feature will be added if I or anyone using it wanted one.
-But a general roadmap is as above.
+But a general roadmap is as above but if you have any suggestion or feature request, feel free to submit an issue!
