@@ -19,7 +19,7 @@ Run `npm install` to download the necessary packages.
 Use npm run with 1 argument, the path towards the folder where the videos are located.
 
 ```
-npm run [path to the folder]
+npm start [path to the folder]
 ```
 
 ## Current limitation
