@@ -32,7 +32,7 @@ const renameFile = (folderPath) => {
         }
       } else {
         console.log(
-          'Could not rename file. THe filename does not contain string that match the XXXX-123 format'
+          `Could not rename file. THe file ${result} does not contain string that match the XXXX-123 format`
         );
       }
     } else {
