@@ -28,10 +28,12 @@ npm start [path to the folder]
 - The format is currently fixed
 - Error handling is still not ideal
 - Can currently only recognize mp4 files
+- Could not recognize videos with multiple part
 
 ## Roadmap
 
 - [ ] Rename video within folder
+- [ ] Recognize videos with multiple part
 - [ ] Allow user to change the folder/filename format
 
 ## Future
