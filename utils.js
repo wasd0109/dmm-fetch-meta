@@ -20,12 +20,19 @@ const renameFile = (folderPath) => {
       if (matches) {
         const ID = matches[0];
         const extension = result.split('.').at(-1);
-
-        fs.renameSync(
-          `${folderPath}/${result}`,
-          `${folderPath}/${ID}.${extension}`
-        );
+        const newFilename = `${ID}.${extension}`;
+        try {
+          fs.renameSync(
+            `${folderPath}/${result}`,
+            `${folderPath}/${newFilename}`
+          );
+          console.log(`Renamed file ${result} to ${newFilename}`);
+        } catch (e) {
+          console.error(e);
+        }
       }
+    } else {
+      console.log(`${result} ignored. Not a MP4 file`);
     }
   }
 };
@@ -36,19 +43,27 @@ const moveVideoToFolder = (folderPath) => {
     const isVideo = VIDEO_REGEX.test(result);
     // const isMultipart = MULTIPART_VIDEO_REGEX.test(result);
     if (isVideo) {
-      const newFilename = result.match(VIDEO_REGEX)[0];
+      const newFilename = result
+        .match(VIDEO_REGEX)[0]
+        .split('.')[0]
+        .toUpperCase();
       const newFolderPath = `${folderPath}\\${result
         .replace(/.mp4/i, '')
         .toUpperCase()}`;
       const extension = newFilename.split('.')[1].toLowerCase();
       if (!fs.existsSync(newFolderPath)) {
-        fs.mkdirSync(newFolderPath);
-        fs.renameSync(
-          `${folderPath}\\${result}`,
-          `${newFolderPath}\\${newFilename
-            .split('.')[0]
-            .toUpperCase()}.${extension}`
-        );
+        try {
+          fs.mkdirSync(newFolderPath);
+          fs.renameSync(
+            `${folderPath}\\${result}`,
+            `${newFolderPath}\\${newFilename}.${extension}`
+          );
+          console.log(
+            `Moved file ${result} to ${newFolderPath}\\${newFilename}`
+          );
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
   }
@@ -84,9 +99,10 @@ const getMetadata = async (id) => {
       const { src: imageUrl, alt: title } = item('img').attr();
       const imageUrlComponent = imageUrl.split('/');
       const dmmId = imageUrlComponent[imageUrlComponent.length - 2];
-      console.log(title, dmmId);
+
       return { title, dmmId };
     } else {
+      console.log(`Failed to obtain metadata for ${id}`);
       return { title: null, dmmId: null };
     }
   }
@@ -99,6 +115,8 @@ const downloadImage = async (dmmId, folderPath, filename) => {
   if (!fileExist) {
     const res = await axios.get(imageURL, { responseType: 'stream' });
     res.data.pipe(fs.createWriteStream(imagePath));
+  } else {
+    console.log('A file of the same name exist. Image will not be saved');
   }
 };
 
@@ -118,6 +136,7 @@ const processFolder = async (folderPath) => {
     SEARCHABLE_FOLDER_REGEX.test(result)
   );
   for (let itemId of searchable) {
+    console.log(`Obtaining metadata for ${itemId}`);
     try {
       const { title, dmmId } = await getMetadata(itemId);
       if (title && dmmId) {
@@ -130,6 +149,7 @@ const processFolder = async (folderPath) => {
 
         fs.renameSync(currentFolderPath, newFolderPath);
         await downloadImage(dmmId, newFolderPath, itemId);
+        console.log(`Metadata for ${itemId} obtained\nTitle: ${title}`);
       }
     } catch (e) {
       console.log(e);

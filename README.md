@@ -1,4 +1,4 @@
-# A script for fetching metadata from DMM.co.jp
+# A script for fetching metadata from DMM.com
 
 ## What it does
 
@@ -8,9 +8,14 @@ Then the video is moved to a folder of its own name and metadata (cover image an
 
 The cover image will be put in the same folder while the title will be part of the folder name in the format **[XXXX-123]TITLE_OF_THE_VIDEO**.
 
+## Prerequisite
+
+Node.js
+
 ## How to use
 
-Clone the repo to whatever folder you like
+Clone the repo to whatever folder you like.
+Run `npm install` to download the necessary packages.
 Use npm run with 1 argument, the path towards the folder where the videos are located.
 
 ```
@@ -22,6 +27,7 @@ npm run [path to the folder]
 - Video files already in a folder will not be renamed (will address in future)
 - The format is currently fixed
 - Error handling is still not ideal
+- Can currently only recognize mp4 files
 
 ## Roadmap
 
