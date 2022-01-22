@@ -15,26 +15,28 @@ const idToDMMId = (id) => {
 const renameFile = (folderPath) => {
   const results = fs.readdirSync(folderPath);
   for (let result of results) {
+    const pathTo = `${folderPath}/${result}`;
     if (result.includes('.mp4')) {
       const matches = result.match(/([A-Za-z]\w+-[0-9]+)/);
       if (matches) {
         const ID = matches[0];
         const extension = result.split('.').at(-1);
         const newFilename = `${ID}.${extension}`;
-        try {
-          fs.renameSync(
-            `${folderPath}/${result}`,
-            `${folderPath}/${newFilename}`
-          );
-          console.log(`Renamed file ${result} to ${newFilename}`);
-        } catch (e) {
-          console.error(e);
+        if (newFilename != result) {
+          try {
+            fs.renameSync(pathTo, `${folderPath}/${newFilename}`);
+            console.log(`Renamed file ${result} to ${newFilename}`);
+          } catch (e) {
+            console.error(e);
+          }
         }
       } else {
         console.log(
           `Could not rename file. THe file ${result} does not contain string that match the XXXX-123 format`
         );
       }
+    } else if (fs.lstatSync(pathTo).isDirectory()) {
+      renameFile(pathTo);
     } else {
       console.log(`${result} ignored. Not a MP4 file`);
     }
