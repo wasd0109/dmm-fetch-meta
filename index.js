@@ -1,24 +1,9 @@
-const { default: axios } = require('axios');
-const fs = require('fs');
-const requrest = require('request');
-const {
-  moveVideoToFolder,
-  getMetadata,
-  downloadImage,
-  SEARCHABLE_FOLDER_REGEX,
-  resetAllFolderName,
-  renameFile,
-  processFolder,
-} = require('./utils');
-const cheerio = require('cheerio');
-const puppeteer = require('puppeteer');
-const request = require('request');
-const path = require('path');
+const { moveVideoToFolder, renameFile, processFolder } = require('./utils');
 
 function main(args) {
   const myArgs = args.slice(2);
   const FOLDER_PATH = myArgs[0];
-
+  console.log(myArgs);
   if (!FOLDER_PATH) {
     console.error('Please enter a folder path as an argument');
   } else {
@@ -27,5 +12,4 @@ function main(args) {
     processFolder();
   }
 }
-
 main(process.argv);
