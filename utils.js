@@ -54,7 +54,8 @@ const moveVideoToFolder = (folderPath) => {
       const newFolderPath = `${folderPath}\\${result
         .replace(/.mp4/i, '')
         .toUpperCase()}`;
-      const extension = newFilename.split('.')[1].toLowerCase();
+      console.log(result);
+      const extension = result.split('.')[1].toLowerCase();
       if (!fs.existsSync(newFolderPath)) {
         try {
           fs.mkdirSync(newFolderPath);
