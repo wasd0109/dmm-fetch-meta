@@ -17,6 +17,7 @@ async function main(args) {
   } else if (!folderExist) {
     console.error('The folder that you entered does not exist');
   } else {
+    // removeNonVideoFile(FOLDER_PATH);
     console.log('Renaming video files...');
     await renameFile(FOLDER_PATH);
     console.log('Moving video files to folders...');
