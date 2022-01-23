@@ -81,8 +81,14 @@ const moveVideoToFolder = (folderPath) => {
           newFolderPath,
           `${newFilename}.${extension}`
         );
-        fs.renameSync(oldPath, newPath);
-        console.log(`Moved file ${result} to ${newFolderPath}\\${newFilename}`);
+        if (fs.existsSync(newPath)) {
+          console.error(`${newPath} exists, will not overwrite`);
+        } else {
+          fs.renameSync(oldPath, newPath);
+          console.log(
+            `Moved file ${result} to ${newFolderPath}\\${newFilename}`
+          );
+        }
       } catch (e) {
         console.log(e);
       }
@@ -167,7 +173,24 @@ const processFolder = async (folderPath) => {
           folderPath,
           `[${itemId.toUpperCase()}]${sanitizedTitle}`
         );
-        fs.renameSync(currentFolderPath, newFolderPath);
+        if (fs.existsSync(newFolderPath)) {
+          const results = fs.readdirSync(currentFolderPath);
+          for (let result of results) {
+            const newPath = concatPath(newFolderPath, result);
+            if (!fs.existsSync(newPath)) {
+              fs.renameSync(
+                concatPath(currentFolderPath, result),
+                concatPath(newFolderPath, result)
+              );
+            } else {
+              console.error(`File exist at ${newPath}, will not overwrite`);
+              continue;
+            }
+          }
+        } else {
+          fs.renameSync(currentFolderPath, newFolderPath);
+        }
+
         await downloadImage(dmmId, newFolderPath, itemId);
         console.log(`Metadata for ${itemId} obtained\nTitle: ${title}`);
       }
