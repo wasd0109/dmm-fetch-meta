@@ -23,8 +23,6 @@ npm start [path to the folder]
 ```
 
 ## Current limitation
-
-- Video files already in a folder will not be renamed (will address in future)
 - Rename could only recognize file that contain string that match the XXXX-123 format
 - The format is currently fixed
 - Error handling is still not ideal
@@ -40,4 +38,4 @@ npm start [path to the folder]
 ## Future
 
 This is a simple personal project and feature will be added if I or anyone using it wanted one.
-But a general roadmap is as above.
+But a general roadmap is as above but if you have any suggestion or feature request, feel free to submit an issue!
