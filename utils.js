@@ -36,7 +36,6 @@ const renameFile = (folderPath) => {
       const matches = result.match(/([A-Za-z]+-[0-9]+)/);
       if (matches) {
         const ID = matches[0];
-        console.log(matches);
         const extension = result.split('.').at(-1);
         const newFilename = `${ID}.${extension}`;
         if (newFilename != result) {
@@ -72,23 +71,20 @@ const moveVideoToFolder = (folderPath) => {
       const newFolderPath = `${folderPath}\\${result
         .replace(/.mp4/i, '')
         .toUpperCase()}`;
-      console.log(result);
       const extension = result.split('.')[1].toLowerCase();
       if (!fs.existsSync(newFolderPath)) {
-        try {
-          fs.mkdirSync(newFolderPath);
-          const oldPath = concatPath(folderPath, result);
-          const newPath = concatPath(
-            newFolderPath,
-            `${newFilename}.${extension}`
-          );
-          fs.renameSync(oldPath, newPath);
-          console.log(
-            `Moved file ${result} to ${newFolderPath}\\${newFilename}`
-          );
-        } catch (e) {
-          console.log(e);
-        }
+        fs.mkdirSync(newFolderPath);
+      }
+      try {
+        const oldPath = concatPath(folderPath, result);
+        const newPath = concatPath(
+          newFolderPath,
+          `${newFilename}.${extension}`
+        );
+        fs.renameSync(oldPath, newPath);
+        console.log(`Moved file ${result} to ${newFolderPath}\\${newFilename}`);
+      } catch (e) {
+        console.log(e);
       }
     }
   }
