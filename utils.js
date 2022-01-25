@@ -1,5 +1,6 @@
 const { default: axios } = require('axios');
 const fs = require('fs');
+const Path = require('path');
 const cheerio = require('cheerio');
 
 const SEARCHABLE_FOLDER_REGEX = /^([A-Za-z])+-([0-9])+$/i;
@@ -30,8 +31,11 @@ const idToDMMId = (id) => {
 
 const renameFile = (folderPath) => {
   const results = fs.readdirSync(folderPath);
+  console.log(results);
+  console.log(folderPath);
   for (let result of results) {
     const pathTo = concatPath(folderPath, result);
+    console.log(pathTo);
     if (result.includes('.mp4')) {
       const matches = result.match(/([A-Za-z]+-[0-9]+)/);
       if (matches) {
@@ -202,7 +206,10 @@ const processFolder = async (folderPath) => {
 };
 
 const concatPath = (folderPath, ...path) => {
-  return path.reduce((acc, path) => acc + '\\' + path, folderPath + '\\');
+  return path.reduce(
+    (acc, path) => acc + Path.sep + path,
+    folderPath + Path.sep
+  );
 };
 
 const sanitizeTitle = (title) => {
