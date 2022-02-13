@@ -72,9 +72,10 @@ const moveVideoToFolder = (folderPath) => {
     // const isMultipart = MULTIPART_VIDEO_REGEX.test(result);
     if (isVideo) {
       const newFilename = filePathToNewFilename(result);
-      const newFolderPath = `${folderPath}\\${result
-        .replace(/.mp4/i, '')
-        .toUpperCase()}`;
+      const newFolderPath = concatPath(
+        folderPath,
+        result.replace(/.mp4/i, '').toUpperCase()
+      );
       const extension = result.split('.')[1].toLowerCase();
       if (!fs.existsSync(newFolderPath)) {
         fs.mkdirSync(newFolderPath);
@@ -90,7 +91,7 @@ const moveVideoToFolder = (folderPath) => {
         } else {
           fs.renameSync(oldPath, newPath);
           console.log(
-            `Moved file ${result} to ${newFolderPath}\\${newFilename}`
+            `Moved file ${result} to ${concatPath(newFolderPath, newFilename)}`
           );
         }
       } catch (e) {
