@@ -20,10 +20,10 @@ async function main(args) {
     // removeNonVideoFile(FOLDER_PATH);
     console.log('Renaming video files...');
     await renameFile(FOLDER_PATH);
-    // console.log('Moving video files to folders...');
-    // await moveVideoToFolder(FOLDER_PATH);
-    // console.log('Obtaining metadata...');
-    // await processFolder(FOLDER_PATH);
+    console.log('Moving video files to folders...');
+    await moveVideoToFolder(FOLDER_PATH);
+    console.log('Obtaining metadata...');
+    await processFolder(FOLDER_PATH);
   }
   console.log('All completed. Exiting...');
 }
