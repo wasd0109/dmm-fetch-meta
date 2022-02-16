@@ -39,7 +39,7 @@ const renameFile = (folderPath) => {
   }
   const videos = results
     .filter((result) => result.includes('.mp4') || result.includes('.mkv'))
-    .filter((video) => video.match(/([A-Za-z]+-[0-9]+)/).length > 0);
+    .filter((video) => video.match(/([A-Za-z]+-[0-9]+)/));
 
   if (videos.length > 1) {
     console.log(
