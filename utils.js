@@ -31,35 +31,42 @@ const idToDMMId = (id) => {
 
 const renameFile = (folderPath) => {
   const results = fs.readdirSync(folderPath);
-  console.log(results);
-  console.log(folderPath);
   for (let result of results) {
     const pathTo = concatPath(folderPath, result);
-    console.log(pathTo);
-    if (result.includes('.mp4')) {
-      const matches = result.match(/([A-Za-z]+-[0-9]+)/);
+    if (fs.lstatSync(pathTo).isDirectory()) {
+      renameFile(pathTo);
+    }
+  }
+  const videos = results
+    .filter((result) => result.includes('.mp4') || result.includes('.mkv'))
+    .filter((video) => video.match(/([A-Za-z]+-[0-9]+)/).length > 0);
+
+  if (videos.length > 1) {
+    console.log(
+      `${folderPath}'s content is not renamed to prevent overwriting`
+    );
+  } else {
+    for (let video of videos) {
+      const pathTo = concatPath(folderPath, video);
+      const matches = video.match(/([A-Za-z]+-[0-9]+)/);
       if (matches) {
         const ID = matches[0];
-        const extension = result.split('.').at(-1);
+        const extension = video.split('.').at(-1);
         const newFilename = `${ID}.${extension}`;
-        if (newFilename != result) {
+        if (newFilename != video) {
           try {
             const newPath = concatPath(folderPath, newFilename);
             fs.renameSync(pathTo, newPath);
-            console.log(`Renamed file ${result} to ${newFilename}`);
+            console.log(`Renamed file ${video} to ${newFilename}`);
           } catch (e) {
             console.error(e);
           }
         }
       } else {
         console.log(
-          `Could not rename file. THe file ${result} does not contain string that match the XXXX-123 format`
+          `Could not rename file. The file ${video} does not contain string that match the XXXX-123 format`
         );
       }
-    } else if (fs.lstatSync(pathTo).isDirectory()) {
-      renameFile(pathTo);
-    } else {
-      console.log(`${result} ignored. Not a MP4 file`);
     }
   }
 };
