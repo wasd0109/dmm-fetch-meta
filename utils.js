@@ -56,8 +56,12 @@ const renameFile = (folderPath) => {
         if (newFilename != video) {
           try {
             const newPath = concatPath(folderPath, newFilename);
-            fs.renameSync(pathTo, newPath);
-            console.log(`Renamed file ${video} to ${newFilename}`);
+            if (fs.existsSync(newPath)) {
+              console.log(`${newPath} already exist`);
+            } else {
+              fs.renameSync(pathTo, newPath);
+              console.log(`Renamed file ${video} to ${newFilename}`);
+            }
           } catch (e) {
             console.error(e);
           }
